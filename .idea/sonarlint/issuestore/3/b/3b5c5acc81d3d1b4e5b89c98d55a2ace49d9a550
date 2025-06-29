@@ -1,0 +1,8 @@
+
+	java:S1125"FDefine and throw a dedicated exception instead of using a generic one.(Åò·øÿÿÿÿ8ñàÇíû2J$53844e42-ba90-453c-9f8b-38430b4b83fc
+}
+java:S1141*"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8òàÇíû2J$1ce4eaa2-3be7-473d-931e-58ee8056a230
+…
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8âùÛíû2J$79d7aa93-786d-43bc-a164-cb158f79a330
+…
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÌöŞíû2J$bd45d20e-e741-4002-9902-6bb2e54f73bf
