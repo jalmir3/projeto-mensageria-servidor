@@ -38,9 +38,11 @@ public class SimpleMessageController {
             Message message = new Message(
                     UUID.randomUUID(),
                     request.getOrDefault("sender", "Anônimo").toString(),
+                    request.getOrDefault("receiver", "Anônimo").toString(),
                     request.get("message").toString(),
                     System.currentTimeMillis(),
-                    "sent"
+                    "sent",
+                    false
             );
 
             // Envia para RabbitMQ

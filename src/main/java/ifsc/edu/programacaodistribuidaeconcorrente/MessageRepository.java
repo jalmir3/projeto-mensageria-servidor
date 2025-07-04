@@ -95,9 +95,11 @@ public class MessageRepository {
                 messages.add(new Message(
                         row.getUuid("id"),
                         row.getString("sender"),
+                        row.getString("receiver"),
                         row.getString("content"),
                         row.getLong("timestamp"),
-                        row.getString("status")
+                        row.getString("status"),
+                        row.getBoolean("delivered")
                 ));
             }
             log.debug("Recuperadas {} mensagens do Cassandra", messages.size());
