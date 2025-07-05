@@ -37,9 +37,11 @@ public class MessageRepository {
                 String createTableQuery = "CREATE TABLE messages (" +
                         "id UUID PRIMARY KEY, " +
                         "sender TEXT, " +
+                        "receiver TEXT, " +
                         "content TEXT, " +
                         "timestamp BIGINT, " +
-                        "status TEXT)";
+                        "status TEXT, " +
+                        "delivered BOOLEAN)";
 
                 session.execute(createTableQuery);
                 log.info("✅ Tabela 'messages' criada no Cassandra");
@@ -67,16 +69,22 @@ public class MessageRepository {
 
     public void saveMessage(Message message) {
         try {
-            String insertQuery = "INSERT INTO messages (id, sender, content, timestamp, status) " +
-                    "VALUES (?, ?, ?, ?, ?)";
+            if (message.getId() == null) {
+                message.setId(UUID.randomUUID());
+            }
+
+            String insertQuery = "INSERT INTO messages (id, sender, receiver, content, timestamp, status, delivered) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement prepared = session.prepare(insertQuery);
             BoundStatement bound = prepared.bind(
                     message.getId(),
                     message.getSender(),
+                    message.getReceiver(),
                     message.getContent(),
                     message.getTimestamp(),
-                    message.getStatus()
+                    message.getStatus(),
+                    message.getDelivered()
             );
 
             session.execute(bound);
@@ -84,6 +92,39 @@ public class MessageRepository {
         } catch (Exception e) {
             log.error("Erro ao salvar mensagem no Cassandra: " + e.getMessage());
             throw new RuntimeException("Falha ao salvar mensagem", e);
+        }
+    }
+
+    public Message findById(UUID id) {
+        try {
+            String selectQuery = "SELECT id, sender, receiver, content, timestamp, status, delivered FROM messages WHERE id = ?";
+            PreparedStatement prepared = session.prepare(selectQuery);
+            BoundStatement bound = prepared.bind(id);
+            
+            ResultSet resultSet = session.execute(bound);
+            Row row = resultSet.one();
+            
+            if (row == null) {
+                log.debug("Mensagem não encontrada com ID: {}", id);
+                return null;
+            }
+            
+            Message message = new Message(
+                    row.getUuid("id"),
+                    row.getString("sender"),
+                    row.getString("receiver"),
+                    row.getString("content"),
+                    row.getLong("timestamp"),
+                    row.getString("status"),
+                    row.getBoolean("delivered")
+            );
+            
+            log.debug("Mensagem encontrada: {}", id);
+            return message;
+            
+        } catch (Exception e) {
+            log.error("Erro ao buscar mensagem por ID: " + e.getMessage());
+            throw new RuntimeException("Falha ao buscar mensagem por ID", e);
         }
     }
 

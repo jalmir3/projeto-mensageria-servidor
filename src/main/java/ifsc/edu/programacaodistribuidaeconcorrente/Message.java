@@ -16,5 +16,5 @@ public class Message {
     private String content;
     private long timestamp;
     private String status;
-    private boolean delivered;
+    private Boolean delivered;
 }
