@@ -12,13 +12,11 @@ public class Main {
         log.info("Iniciando aplicação Spring Boot...");
 
         try {
-            // Inicializar o contexto do Spring
+
             ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
-            // Obter o bean do MessageServer
             MessageServer server = context.getBean(MessageServer.class);
 
-            // Configurar shutdown hook
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 log.info("\nEncerrando servidor...");
                 server.shutdown();

@@ -26,18 +26,15 @@ public class MessageServer {
         try {
             log.info("Iniciando MessageServer...");
 
-            // Inicializar Cassandra
             databaseConfig.initCassandra();
             log.info("Database configurado com sucesso");
 
-            // Inicializar Queue Management
             queueManagementConfig.init();
             log.info("Queue Management configurado com sucesso");
 
             isRunning = true;
             log.info("MessageServer iniciado com sucesso!");
 
-            // Manter o servidor ativo
             while (isRunning) {
                 try {
                     Thread.sleep(1000);

@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class QueueManagementConfig {
 
-    // Spring Boot já configura automaticamente o ConnectionFactory
-    // baseado nas propriedades spring.rabbitmq.*
     @Getter
     @Autowired
     private ConnectionFactory connectionFactory;
@@ -31,7 +29,6 @@ public class QueueManagementConfig {
     @Lazy
     private RabbitAdmin rabbitAdmin;
 
-    // Configurações de filas e exchanges
     @Getter
     @Value("${queue.message.name}")
     private String queueName;
@@ -59,7 +56,6 @@ public class QueueManagementConfig {
         log.info("Routing Key: " + routingKey);
     }
 
-    // Beans para configuração automática das filas
     @Bean
     public Queue messageQueue() {
         return QueueBuilder.durable(queueName)
@@ -69,18 +65,13 @@ public class QueueManagementConfig {
 
     @Bean
     public Exchange messageExchange() {
-        switch (exchangeType.toLowerCase()) {
-            case "direct":
-                return new DirectExchange(exchangeName, true, false);
-            case "topic":
-                return new TopicExchange(exchangeName, true, false);
-            case "fanout":
-                return new FanoutExchange(exchangeName, true, false);
-            case "headers":
-                return new HeadersExchange(exchangeName, true, false);
-            default:
-                throw new IllegalArgumentException("Tipo de exchange inválido: " + exchangeType);
-        }
+        return switch (exchangeType.toLowerCase()) {
+            case "direct" -> new DirectExchange(exchangeName, true, false);
+            case "topic" -> new TopicExchange(exchangeName, true, false);
+            case "fanout" -> new FanoutExchange(exchangeName, true, false);
+            case "headers" -> new HeadersExchange(exchangeName, true, false);
+            default -> throw new IllegalArgumentException("Tipo de exchange inválido: " + exchangeType);
+        };
     }
 
     @Bean
@@ -100,7 +91,6 @@ public class QueueManagementConfig {
         try {
             log.info("=== Inicializando RabbitMQ ===");
 
-            // Testar conexão
             testConnection();
 
             log.info("✅ RabbitMQ configurado com sucesso!");
@@ -117,7 +107,6 @@ public class QueueManagementConfig {
 
     private void testConnection() {
         try {
-            // Teste simples usando RabbitTemplate
             rabbitTemplate.execute(channel -> {
                 log.info("✅ Conexão RabbitMQ testada com sucesso");
                 log.info("Canal ativo: " + channel.isOpen());
@@ -125,31 +114,6 @@ public class QueueManagementConfig {
             });
         } catch (Exception e) {
             throw new RuntimeException("Falha ao testar conexão RabbitMQ", e);
-        }
-    }
-
-    // Métodos utilitários para mensagens
-    public void sendMessage(String message) {
-        try {
-            rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
-            log.info("📤 Mensagem enviada: " + message);
-        } catch (Exception e) {
-            log.error("❌ Erro ao enviar mensagem: " + e.getMessage());
-            throw e;
-        }
-    }
-
-    public String receiveMessage() {
-        try {
-            Object message = rabbitTemplate.receiveAndConvert(queueName);
-            if (message != null) {
-                log.info("📥 Mensagem recebida: " + message);
-                return message.toString();
-            }
-            return null;
-        } catch (Exception e) {
-            log.error("❌ Erro ao receber mensagem: " + e.getMessage());
-            throw e;
         }
     }
 

@@ -86,10 +86,8 @@ public class DatabaseConfig {
             log.info("Keyspace: " + keyspace);
             log.info("Datacenter: " + datacenter);
 
-            // Preparar lista de contact points
             List<String> hosts = Arrays.asList(contactPoints.split(","));
 
-            // Criar configuração programática
             ProgrammaticDriverConfigLoaderBuilder configLoaderBuilder = DriverConfigLoader.programmaticBuilder()
                     .withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(requestTimeout))
                     .withDuration(DefaultDriverOption.CONNECTION_CONNECT_TIMEOUT, Duration.ofMillis(connectionTimeout))
@@ -97,31 +95,23 @@ public class DatabaseConfig {
                     .withInt(DefaultDriverOption.CONNECTION_MAX_REQUESTS, localMaxConnections);
 
             DriverConfigLoader configLoader = configLoaderBuilder.build();
-
-            // Primeiro, conectar sem keyspace para criar o keyspace se necessário
             CqlSessionBuilder builderWithoutKeyspace = CqlSession.builder();
 
-            // Adicionar contact points
             for (String host : hosts) {
                 builderWithoutKeyspace.addContactPoint(new InetSocketAddress(host.trim(), port));
             }
 
-            // Configurar datacenter
             builderWithoutKeyspace.withLocalDatacenter(datacenter);
 
-            // Aplicar configuração personalizada
             builderWithoutKeyspace.withConfigLoader(configLoader);
 
-            // Configurar autenticação se fornecida
             if (username != null && password != null && !username.isEmpty() && !password.isEmpty()) {
                 log.info("Configurando autenticação para usuário: " + username);
                 builderWithoutKeyspace.withAuthCredentials(username, password);
             }
 
-            // Criar sessão temporária sem keyspace
             CqlSession tempSession = builderWithoutKeyspace.build();
 
-            // Criar keyspace se não existir
             log.info("Verificando se keyspace existe: " + keyspace);
             String createKeyspaceQuery = String.format(
                     "CREATE KEYSPACE IF NOT EXISTS %s WITH REPLICATION = " +
@@ -131,35 +121,26 @@ public class DatabaseConfig {
             tempSession.execute(createKeyspaceQuery);
             log.info("✅ Keyspace verificado/criado: " + keyspace);
 
-            // Fechar sessão temporária
             tempSession.close();
 
-            // Agora conectar com o keyspace
             CqlSessionBuilder builder = CqlSession.builder();
 
-            // Adicionar contact points
             for (String host : hosts) {
                 builder.addContactPoint(new InetSocketAddress(host.trim(), port));
             }
 
-            // Configurar datacenter
             builder.withLocalDatacenter(datacenter);
 
-            // Configurar keyspace
             builder.withKeyspace(keyspace);
 
-            // Aplicar configuração personalizada
             builder.withConfigLoader(configLoader);
 
-            // Configurar autenticação se fornecida
             if (username != null && password != null && !username.isEmpty() && !password.isEmpty()) {
                 builder.withAuthCredentials(username, password);
             }
 
-            // Criar a sessão final
             session = builder.build();
 
-            // Testar conexão
             String query = "SELECT release_version FROM system.local";
             var result = session.execute(query);
             var version = result.one().getString("release_version");

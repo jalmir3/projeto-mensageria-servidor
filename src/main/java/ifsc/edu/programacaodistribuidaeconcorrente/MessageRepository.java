@@ -26,7 +26,6 @@ public class MessageRepository {
 
     private void createTableIfNotExists() {
         try {
-            // Verifica se a tabela já existe
             boolean tableExists = session.execute(
                     "SELECT table_name FROM system_schema.tables " +
                             "WHERE keyspace_name = 'message_system' AND table_name = 'messages'"
@@ -43,7 +42,6 @@ public class MessageRepository {
                 session.execute(createTableQuery);
                 log.info("✅ Tabela 'messages' criada no Cassandra");
             } else {
-                // Verifica se a estrutura está correta
                 verifyTableStructure();
                 log.info("✅ Tabela 'messages' já existe");
             }
@@ -55,7 +53,6 @@ public class MessageRepository {
 
     private void verifyTableStructure() {
         try {
-            // Tenta uma operação simples para verificar a estrutura
             session.execute("SELECT id, sender, content, timestamp, status FROM messages LIMIT 1");
         } catch (Exception e) {
             log.error("Estrutura da tabela incorreta. Recriando tabela...");

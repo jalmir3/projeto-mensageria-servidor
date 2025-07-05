@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,11 +44,9 @@ public class SimpleMessageController {
                     "sent"
             );
 
-            // Envia para RabbitMQ
             rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
             log.info("📤 Mensagem enviada para RabbitMQ: {}", message);
 
-            // Salva no Cassandra
             messageRepository.saveMessage(message);
             log.info("💾 Mensagem salva no Cassandra: {}", message.getId());
 
