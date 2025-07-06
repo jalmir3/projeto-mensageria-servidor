@@ -15,13 +15,10 @@ public class UserService {
         this.rabbitMqUserSetupService = rabbitMqUserSetupService;
     }
 
-    public User registerUser(String userId, String name) {
+    public void registerUser(String userId, String name, String deviceId) {
         User user = new User(userId, name, Instant.now());
         userRepository.save(user);
 
-        // Create RabbitMQ queue and binding for this user
-        rabbitMqUserSetupService.createUserQueue(userId);
-
-        return user;
+        rabbitMqUserSetupService.createDeviceQueue(userId, deviceId);
     }
 }

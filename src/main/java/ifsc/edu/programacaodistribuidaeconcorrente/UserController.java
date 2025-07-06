@@ -10,7 +10,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -21,9 +20,10 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody Map<String, String> body) {
         String userId = body.get("userId");
         String name = body.get("name");
+        String deviceId = body.get("deviceId");
 
-        User user = userService.registerUser(userId, name);
+        userService.registerUser(userId, name, deviceId);
 
-        return ResponseEntity.ok("User registered: " + user.getUserId());
+        return ResponseEntity.ok("User registered");
     }
 }
