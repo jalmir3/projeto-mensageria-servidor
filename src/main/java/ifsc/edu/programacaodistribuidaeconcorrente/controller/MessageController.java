@@ -1,14 +1,12 @@
 package ifsc.edu.programacaodistribuidaeconcorrente.controller;
 
-import ifsc.edu.programacaodistribuidaeconcorrente.model.Message;
-import ifsc.edu.programacaodistribuidaeconcorrente.repository.MessageRepository;
 import ifsc.edu.programacaodistribuidaeconcorrente.service.MessageService;
 import lombok.AllArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor

@@ -1,7 +1,6 @@
 package ifsc.edu.programacaodistribuidaeconcorrente.repository;
 
 import com.datastax.oss.driver.api.core.CqlSession;
-import com.datastax.oss.driver.api.core.cql.*;
 import ifsc.edu.programacaodistribuidaeconcorrente.model.Message;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
