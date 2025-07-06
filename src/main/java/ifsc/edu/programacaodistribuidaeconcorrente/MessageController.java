@@ -46,6 +46,12 @@ public class MessageController {
         }
     }
 
+    @PostMapping("/ack")
+    public ResponseEntity<Void> acknowledge(@RequestParam UUID messageId) {
+        messagingService.markDelivered(messageId);
+        return ResponseEntity.ok().build();
+    }
+
     /*@GetMapping("/receive")
     public ResponseEntity<Map<String, Object>> receiveMessages() {
         try {
