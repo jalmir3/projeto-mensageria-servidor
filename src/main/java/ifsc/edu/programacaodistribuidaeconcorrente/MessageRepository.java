@@ -84,7 +84,7 @@ public class MessageRepository {
                     message.getContent(),
                     message.getTimestamp(),
                     message.getStatus(),
-                    message.getDelivered()
+                    message.isDelivered()
             );
 
             session.execute(bound);
