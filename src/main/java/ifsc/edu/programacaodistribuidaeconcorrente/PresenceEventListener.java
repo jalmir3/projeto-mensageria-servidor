@@ -13,7 +13,11 @@ public class PresenceEventListener {
     }
     
     @RabbitListener(queues = "#{anonymousQueue.name}")
-    public void onPresenceEvent(PresenceEvent event) {
+    public void onPresenceEventAnonymous(PresenceEvent event) {
+        processPresenceEvent(event);
+    }
+    
+    private void processPresenceEvent(PresenceEvent event) {
         if (event.type == PresenceEvent.Type.ADD) {
             crdtService.add(event.deviceId, event.tag);
         } else {
