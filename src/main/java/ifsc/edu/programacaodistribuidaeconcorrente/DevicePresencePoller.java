@@ -20,9 +20,8 @@ public class DevicePresencePoller {
         this.messagingService = messagingService;
     }
     
-    @Scheduled(fixedRate = 5000) // every 5 seconds
+    @Scheduled(fixedRate = 5000)
     public void checkPresence() {
-        // Example devices - you should load from your DB or cache
         List<String> userIds = List.of("user1", "user2");
         List<String> deviceIds = List.of("deviceA", "deviceB");
         
