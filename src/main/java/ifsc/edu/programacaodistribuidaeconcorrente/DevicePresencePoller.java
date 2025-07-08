@@ -11,13 +11,17 @@ public class DevicePresencePoller {
     
     private final RabbitMqPresenceChecker presenceChecker;
     private final MessagingService messagingService;
+    private final DeviceConnectionHandler connectionHandler;
     
     // Memory-based last-seen status map
     private final Map<String, Boolean> onlineStatus = new ConcurrentHashMap<>();
     
-    public DevicePresencePoller(RabbitMqPresenceChecker presenceChecker, MessagingService messagingService) {
+    public DevicePresencePoller(RabbitMqPresenceChecker presenceChecker, 
+                               MessagingService messagingService,
+                               DeviceConnectionHandler connectionHandler) {
         this.presenceChecker = presenceChecker;
         this.messagingService = messagingService;
+        this.connectionHandler = connectionHandler;
     }
     
     @Scheduled(fixedRate = 5000)
@@ -33,7 +37,11 @@ public class DevicePresencePoller {
                 
                 if (!wasOnline && isOnline) {
                     // Device just came online
+                    connectionHandler.onDeviceConnected(deviceId);
                     messagingService.onDeviceReconnect(userId, deviceId);
+                } else if (wasOnline && !isOnline) {
+                    // Device went offline
+                    connectionHandler.onDeviceDisconnected(deviceId);
                 }
                 
                 onlineStatus.put(key, isOnline);
