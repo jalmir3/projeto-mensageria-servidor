@@ -58,16 +58,8 @@ public class DatabaseConfig {
 
     @Bean
     public CqlSession session() {
-        try {
-            return CqlSession.builder()
-                    .withKeyspace("message_system")
-                    .addContactPoint(new InetSocketAddress("127.0.0.1", 9042))
-                    .withLocalDatacenter("datacenter1")
-                    .build();
-        } catch (Exception e) {
-            log.error("Erro ao conectar ao Cassandra", e);
-            throw new RuntimeException("Falha na conexão com Cassandra", e);
-        }
+        initCassandra();
+        return session;
     }
 
     @PostConstruct
