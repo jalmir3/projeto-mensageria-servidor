@@ -48,9 +48,8 @@ public class MessagingService {
     }
 
     public void sendMessageToUserDevices(String userId, MessagePayload payload) {
-        List<Device> devices = deviceRepository.findByKeyUserId(userId);
-        for (Device device : devices) {
-            String deviceId = device.getKey().getDeviceId();
+        List<String> deviceIds = List.of("deviceA", "deviceB");
+        for (String deviceId : deviceIds) {
             if (presenceService.isOnline(deviceId)) {
                 // Send via WebSocket/RabbitMQ
                 deliverToDevice(deviceId, payload);
