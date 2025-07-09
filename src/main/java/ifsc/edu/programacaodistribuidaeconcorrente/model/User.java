@@ -1,4 +1,4 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

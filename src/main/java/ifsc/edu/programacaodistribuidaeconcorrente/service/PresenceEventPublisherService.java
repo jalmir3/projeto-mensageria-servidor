@@ -1,15 +1,16 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.service;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.model.PresenceEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class PresenceEventPublisher {
+public class PresenceEventPublisherService {
     
     private final RabbitTemplate rabbitTemplate;
     
-    public PresenceEventPublisher(RabbitTemplate rabbitTemplate) {
+    public PresenceEventPublisherService(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
     

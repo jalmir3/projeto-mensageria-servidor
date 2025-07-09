@@ -1,4 +1,4 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.http.HttpEntity;
@@ -13,12 +13,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Service
-public class RabbitMqPresenceChecker {
+public class RabbitMqPresenceCheckerService {
     private final RestTemplate restTemplate;
     private final HttpHeaders headers;
     private final String baseUrl = "http://localhost:15672/api/queues/%2F/";
 
-    public RabbitMqPresenceChecker() {
+    public RabbitMqPresenceCheckerService() {
         this.restTemplate = new RestTemplate();
         String auth = "guest:guest";
         String encoded = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));

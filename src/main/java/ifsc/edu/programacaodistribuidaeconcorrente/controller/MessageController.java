@@ -1,5 +1,6 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.controller;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.service.MessagingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,32 +52,4 @@ public class MessageController {
         messagingService.markDelivered(messageId);
         return ResponseEntity.ok().build();
     }
-
-    /*@GetMapping("/receive")
-    public ResponseEntity<Map<String, Object>> receiveMessages() {
-        try {
-            List<Message> messages = messageRepository.getMessages();
-            return ResponseEntity.ok(Map.of(
-                    "status", "ok",
-                    "messages", messages.stream().map(this::convertToMap).collect(Collectors.toList()),
-                    "count", messages.size()
-            ));
-        } catch (Exception e) {
-            log.error("❌ Erro ao recuperar mensagens: {}", e.getMessage());
-            return ResponseEntity.status(500).body(Map.of(
-                    "status", "error",
-                    "message", "Falha ao recuperar mensagens"
-            ));
-        }
-    }
-
-    private Map<String, Object> convertToMap(Message message) {
-        return Map.of(
-                "id", message.getId().toString(),
-                "sender", message.getSender(),
-                "message", message.getContent(),
-                "timestamp", message.getTimestamp(),
-                "status", message.getStatus()
-        );
-    }*/
 }

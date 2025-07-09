@@ -1,5 +1,7 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.service;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.model.User;
+import ifsc.edu.programacaodistribuidaeconcorrente.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 

@@ -1,9 +1,15 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.service;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.model.Message;
+import ifsc.edu.programacaodistribuidaeconcorrente.model.OfflineMessage;
+import ifsc.edu.programacaodistribuidaeconcorrente.config.RabbitMQConfig;
+import ifsc.edu.programacaodistribuidaeconcorrente.repository.DeviceRepository;
+import ifsc.edu.programacaodistribuidaeconcorrente.repository.MessageRepository;
+import ifsc.edu.programacaodistribuidaeconcorrente.repository.OfflineMessageRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 

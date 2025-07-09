@@ -1,4 +1,4 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.config;
 
 
 import org.springframework.amqp.core.TopicExchange;

@@ -1,5 +1,6 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.service;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.ORSet;
 import org.springframework.stereotype.Service;
 import java.util.Set;
 import java.util.UUID;

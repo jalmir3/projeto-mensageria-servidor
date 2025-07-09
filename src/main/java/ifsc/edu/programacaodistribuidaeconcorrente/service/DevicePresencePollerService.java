@@ -1,5 +1,6 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.service;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.component.DeviceConnectionHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -7,18 +8,18 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class DevicePresencePoller {
+public class DevicePresencePollerService {
     
-    private final RabbitMqPresenceChecker presenceChecker;
+    private final RabbitMqPresenceCheckerService presenceChecker;
     private final MessagingService messagingService;
     private final DeviceConnectionHandler connectionHandler;
     
     // Memory-based last-seen status map
     private final Map<String, Boolean> onlineStatus = new ConcurrentHashMap<>();
     
-    public DevicePresencePoller(RabbitMqPresenceChecker presenceChecker, 
-                               MessagingService messagingService,
-                               DeviceConnectionHandler connectionHandler) {
+    public DevicePresencePollerService(RabbitMqPresenceCheckerService presenceChecker,
+                                       MessagingService messagingService,
+                                       DeviceConnectionHandler connectionHandler) {
         this.presenceChecker = presenceChecker;
         this.messagingService = messagingService;
         this.connectionHandler = connectionHandler;

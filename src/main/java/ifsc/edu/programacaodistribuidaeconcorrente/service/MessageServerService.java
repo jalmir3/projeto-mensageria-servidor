@@ -1,5 +1,7 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.service;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.config.DatabaseConfig;
+import ifsc.edu.programacaodistribuidaeconcorrente.config.QueueManagementConfig;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class MessageServer {
+public class MessageServerService {
 
     @Autowired
     private DatabaseConfig databaseConfig;

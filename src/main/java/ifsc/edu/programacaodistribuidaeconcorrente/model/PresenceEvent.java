@@ -1,4 +1,4 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.model;
 
 import java.util.UUID;
 

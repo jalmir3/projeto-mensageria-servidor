@@ -1,5 +1,7 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.component;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.model.PresenceEvent;
+import ifsc.edu.programacaodistribuidaeconcorrente.service.PresenceCRDTService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 

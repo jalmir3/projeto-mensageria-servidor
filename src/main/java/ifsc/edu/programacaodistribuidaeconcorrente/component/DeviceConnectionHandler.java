@@ -1,5 +1,6 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.component;
 
+import ifsc.edu.programacaodistribuidaeconcorrente.service.PresenceEventPublisherService;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -8,10 +9,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class DeviceConnectionHandler {
-    private final PresenceEventPublisher publisher;
+    private final PresenceEventPublisherService publisher;
     private final Map<String, UUID> deviceTags = new ConcurrentHashMap<>();
     
-    public DeviceConnectionHandler(PresenceEventPublisher publisher) {
+    public DeviceConnectionHandler(PresenceEventPublisherService publisher) {
         this.publisher = publisher;
     }
     
