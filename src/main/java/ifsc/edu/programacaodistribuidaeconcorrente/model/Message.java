@@ -1,4 +1,4 @@
-package ifsc.edu.programacaodistribuidaeconcorrente;
+package ifsc.edu.programacaodistribuidaeconcorrente.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Message {
     private UUID id;
     private String sender;
+    private String recipient;
     private String content;
     private long timestamp;
-    private String status;
 }
